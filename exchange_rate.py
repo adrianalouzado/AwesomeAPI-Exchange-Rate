@@ -33,9 +33,9 @@ def conversion_bitcoin():
 def main():
 
     while True: 
-        print('\n1 - DOLAR ')
-        print('2 - EURO ')
-        print('3 - BITCOIN ')
+        print('\n1 - USD ')
+        print('2 - EUR ')
+        print('3 - BTC ')
         print('4 - END THE PROGRAM')
 
         opcao_menu = int(input('\nChoose one option above:  '))
