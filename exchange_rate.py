@@ -1,61 +1,41 @@
-import requests 
-import json
+import requests
+4
 
-price = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL")
-price = price.json()
-#print(price.content)
 
-price_dolar = float(price['USDBRL']['bid'])
-price_euro = float(price['EURBRL']['bid'])
-price_bitcoin = float(price['BTCBRL']['bid'])
+# Request the prices from the API and convert to JSON
+price = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").json()
 
-def conversion_dolar():
-    print('\nUpdated value of the dollar in reais : {}'.format(price_dolar))
-    value_real = float(input('How many reais you want to convert? '))
-    result = value_real / price_dolar
-    print('\nTotal em dólar = {}'.format(result))
-    print('Total em reais = {}'.format(value_real))
+# Extract the exchange rates
+exchange_rates = {
+    "USD": float(price['USDBRL']['bid']),
+    "EUR": float(price['EURBRL']['bid']),
+    "BTC": float(price['BTCBRL']['bid'])
+}
 
-def conversion_euro():
-    print('\nUpdated value of the euro in reais : {}'.format(price_euro))
-    value_real = float(input('How many reais you want to convert? '))
-    reuslt = value_real / price_euro
-    print('\nTotal in euro = {}'.format(reuslt))
-    print('Total in reais = {}'.format(value_real))
-
-def conversion_bitcoin():
-    print('\nUpdated value of the bitcoin in reais :  {}'.format(price_bitcoin))
-    value_real = float(input('How many reais you want to convert? '))
-    result = value_real / price_bitcoin
-    print('\nTotal in bitcoin = {}'.format(result))
-    print('Total in reais = {}'.format(value_real))
+def convert_currency(currency):
+    rate = exchange_rates[currency]
+    value_real = float(input(f'How many reais do you want to convert to {currency}? '))
+    result = value_real / rate
+    print(f'\nTotal in {currency} = {result:.2f}')
+    print(f'Total in reais = {value_real:.2f}')
 
 def main():
+    options = {"1": "USD", "2": "EUR", "3": "BTC"}
+    
+    while True:
+        print('\n1 - USD \n2 - EUR \n3 - BTC \n4 - END THE PROGRAM')
+        choice = input('\nChoose one option above: ')
+        
+        if choice == "4":
+            print('\nEnding the program')
+            break
+        elif choice in options:
+            convert_currency(options[choice])
+        else:
+            print('\nInvalid option. Please, try again.')
 
-    while True: 
-        print('\n1 - USD ')
-        print('2 - EUR ')
-        print('3 - BTC ')
-        print('4 - END THE PROGRAM')
-
-        opcao_menu = int(input('\nChoose one option above:  '))
-
-        match opcao_menu:
-            case 1: 
-                conversion_dolar()
-
-            case 2:
-                conversion_euro()
-                
-            case 3:
-                conversion_bitcoin()
-            
-            case 4:
-                print('\nEnding the program')
-                break
-            
-            case _: 
-                print('\nInlavid option. Please, try again.')
+if __name__ == "__main__":
+    main()
 
             
 
